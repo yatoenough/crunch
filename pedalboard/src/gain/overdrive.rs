@@ -12,8 +12,8 @@ impl Overdrive {
 }
 
 impl Effect for Overdrive {
-    fn process(&mut self, input_sample: f32) -> f32 {
-        let driven = input_sample * self.drive;
+    fn process(&mut self, sample: f32) -> f32 {
+        let driven = sample * self.drive;
 
         driven.tanh() * self.volume
     }

@@ -1,7 +1,7 @@
 use std::sync::{Arc, Mutex};
 
 use cpal::StreamConfig;
-use pedalboard::EffectChain;
+use pedalboard::{Effect, EffectChain};
 
 use crate::audio::buffer::AudioBuffer;
 

@@ -12,8 +12,8 @@ impl Fuzz {
 }
 
 impl Effect for Fuzz {
-    fn process(&mut self, input_sample: f32) -> f32 {
-        let mut driven = input_sample * self.drive;
+    fn process(&mut self, sample: f32) -> f32 {
+        let mut driven = sample * self.drive;
 
         while driven > self.threshold || driven < -self.threshold {
             if driven > self.threshold {

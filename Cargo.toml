@@ -1,3 +1,3 @@
 [workspace]
-members = ["guitar-processor", "pedalboard"]
+members = ["crunch", "pedalboard"]
 resolver = "3"

@@ -3,9 +3,9 @@ use std::sync::{Arc, Mutex};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 use pedalboard::{
-    EffectChain,
     gain::Overdrive,
     modulation::{Chorus, Delay},
+    EffectChain,
 };
 
 pub mod audio;

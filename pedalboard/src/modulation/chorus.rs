@@ -30,8 +30,8 @@ impl Chorus {
 }
 
 impl Effect for Chorus {
-    fn process(&mut self, input: f32) -> f32 {
-        self.buffer[self.write_pos] = input;
+    fn process(&mut self, sample: f32) -> f32 {
+        self.buffer[self.write_pos] = sample;
 
         self.lfo_phase += self.lfo_rate / self.sample_rate;
 
@@ -54,6 +54,6 @@ impl Effect for Chorus {
 
         self.write_pos = (self.write_pos + 1) % self.buffer.len();
 
-        input * (1.0 - self.mix) + wet * self.mix
+        sample * (1.0 - self.mix) + wet * self.mix
     }
 }
