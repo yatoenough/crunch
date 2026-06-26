@@ -1,4 +1,4 @@
-use crate::effects::Effect;
+use crate::Effect;
 
 pub struct Delay {
     buffer: Vec<f32>,

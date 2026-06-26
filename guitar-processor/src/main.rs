@@ -1,10 +1,18 @@
 use std::sync::{Arc, Mutex};
 
+pub mod audio;
+pub mod engine;
+
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
-use guitar_processor::{
-    audio::{self, pipeline::EffectChain, selector::pick_device}, effects::{
-        dynamics::{PeakLimiter, RmsNormalizer}, gain::Overdrive, modulation::{Chorus, Delay},
-    }, engine::AudioEngine,
+
+use pedalboard::{
+    gain::Overdrive,
+    modulation::{Chorus, Delay},
+};
+
+use crate::{
+    audio::{pipeline::EffectChain, selector::pick_device},
+    engine::AudioEngine,
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -28,8 +36,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         audio::device::config_with_min_buffer(output_device.default_output_config()?);
 
     let effects = Arc::new(Mutex::new(EffectChain::new(vec![
-        Box::new(RmsNormalizer::new(sample_rate)),
-        Box::new(PeakLimiter::new(sample_rate)),
         Box::new(Overdrive::new(15.0, 0.5)),
         Box::new(Chorus::new(sample_rate)),
         Box::new(Delay::new(sample_rate, 100.0, 0.1, 0.2, 0.43)),

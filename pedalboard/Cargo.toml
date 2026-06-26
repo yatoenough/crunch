@@ -1,0 +1,8 @@
+[package]
+name = "pedalboard"
+description = "A simple collection of DSP guitar effects."
+version = "0.0.1"
+edition = "2024"
+license= "MIT"
+
+[dependencies]

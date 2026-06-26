@@ -1,0 +1,8 @@
+[package]
+name = "guitar-processor"
+version = "0.0.1"
+edition = "2024"
+
+[dependencies]
+cpal = "0.18.1"
+pedalboard = { path = "../pedalboard" }

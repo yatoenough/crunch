@@ -1,4 +1,4 @@
-use crate::effects::Effect;
+use crate::Effect;
 
 pub struct Overdrive {
     drive: f32,

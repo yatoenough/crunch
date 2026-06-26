@@ -1,4 +1,4 @@
-use crate::effects::Effect;
+use pedalboard::Effect;
 
 pub struct EffectChain {
     effects: Vec<Box<dyn Effect + Send>>,
