@@ -1,9 +1,9 @@
 use std::sync::{Arc, Mutex};
 
 use cpal::StreamConfig;
+use pedalboard::EffectChain;
 
 use crate::audio::buffer::AudioBuffer;
-use crate::audio::pipeline::EffectChain;
 
 pub struct AudioEngine {
     pub buffer: Arc<Mutex<AudioBuffer>>,

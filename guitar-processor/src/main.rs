@@ -1,19 +1,17 @@
 use std::sync::{Arc, Mutex};
 
-pub mod audio;
-pub mod engine;
-
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 use pedalboard::{
+    EffectChain,
     gain::Overdrive,
     modulation::{Chorus, Delay},
 };
 
-use crate::{
-    audio::{pipeline::EffectChain, selector::pick_device},
-    engine::AudioEngine,
-};
+pub mod audio;
+pub mod engine;
+
+use crate::{audio::selector::pick_device, engine::AudioEngine};
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let host = cpal::default_host();
