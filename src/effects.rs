@@ -1,11 +1,11 @@
 mod chorus;
 mod delay;
-mod distortion;
+mod overdrive;
 mod peak_limiter;
 mod rms_normalizer;
 
 pub use {
-    chorus::Chorus, delay::Delay, distortion::Distortion, peak_limiter::PeakLimiter,
+    chorus::Chorus, delay::Delay, overdrive::Overdrive, peak_limiter::PeakLimiter,
     rms_normalizer::RmsNormalizer,
 };
 

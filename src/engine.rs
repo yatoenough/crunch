@@ -1,10 +1,12 @@
-use std::collections::VecDeque;
 use std::sync::{Arc, Mutex};
 
+use cpal::StreamConfig;
+
+use crate::audio::buffer::AudioBuffer;
 use crate::audio::pipeline::EffectChain;
 
 pub struct AudioEngine {
-    pub buffer: Arc<Mutex<VecDeque<f32>>>,
+    pub buffer: Arc<Mutex<AudioBuffer>>,
     pub effects: Arc<Mutex<EffectChain>>,
     pub input_channels: usize,
     pub output_channels: usize,
@@ -12,6 +14,20 @@ pub struct AudioEngine {
 }
 
 impl AudioEngine {
+    pub fn new(
+        effects: Arc<Mutex<EffectChain>>,
+        input_config: StreamConfig,
+        output_config: StreamConfig,
+        sample_rate: f32,
+    ) -> Self {
+        Self {
+            buffer: Arc::new(Mutex::new(AudioBuffer::new())),
+            effects,
+            input_channels: input_config.channels as usize,
+            output_channels: output_config.channels as usize,
+            sample_rate,
+        }
+    }
     pub fn input_callback(&self) -> impl FnMut(&[f32], &cpal::InputCallbackInfo) + Send + 'static {
         let buffer = Arc::clone(&self.buffer);
         let effects = Arc::clone(&self.effects);
@@ -27,7 +43,7 @@ impl AudioEngine {
                     sample = fx.process(sample);
                 }
 
-                buf.push_back(sample);
+                buf.push(sample);
             }
         }
     }
@@ -42,7 +58,7 @@ impl AudioEngine {
             let mut buf = buffer.lock().unwrap();
 
             for frame in data.chunks_mut(output_channels) {
-                let sample = buf.pop_front().unwrap_or(0.0);
+                let sample = buf.pop();
                 for ch in frame {
                     *ch = sample;
                 }
