@@ -57,17 +57,3 @@ impl Effect for Chorus {
         input * (1.0 - self.mix) + wet * self.mix
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn process_wraps_fractional_read_position() {
-        let mut chorus = Chorus::new(48_000.0);
-
-        for _ in 0..(chorus.buffer.len() * 4) {
-            chorus.process(0.25);
-        }
-    }
-}

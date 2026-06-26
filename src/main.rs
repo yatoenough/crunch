@@ -2,9 +2,9 @@ use std::sync::{Arc, Mutex};
 
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 use guitar_processor::{
-    audio::{self, pipeline::EffectChain, selector::pick_device},
-    effects::{Chorus, Delay, Overdrive, PeakLimiter, RmsNormalizer},
-    engine::AudioEngine,
+    audio::{self, pipeline::EffectChain, selector::pick_device}, effects::{
+        dynamics::{PeakLimiter, RmsNormalizer}, gain::Overdrive, modulation::{Chorus, Delay},
+    }, engine::AudioEngine,
 };
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
