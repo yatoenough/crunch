@@ -1,4 +1,4 @@
-use crate::effects::Effect;
+use crate::Effect;
 
 pub struct Delay {
     buffer: Vec<f32>,
@@ -27,18 +27,18 @@ impl Delay {
 }
 
 impl Effect for Delay {
-    fn process(&mut self, input_sample: f32) -> f32 {
+    fn process(&mut self, sample: f32) -> f32 {
         if self.delay_samples == 0 {
-            return input_sample;
+            return sample;
         }
 
         let read_ptr =
             (self.write_ptr + self.buffer.len() - self.delay_samples) % self.buffer.len();
         let delayed_sample = self.buffer[read_ptr];
 
-        self.buffer[self.write_ptr] = input_sample + (delayed_sample * self.feedback);
+        self.buffer[self.write_ptr] = sample + (delayed_sample * self.feedback);
         self.write_ptr = (self.write_ptr + 1) % self.buffer.len();
 
-        (input_sample * self.dry) + (delayed_sample * self.wet)
+        (sample * self.dry) + (delayed_sample * self.wet)
     }
 }

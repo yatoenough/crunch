@@ -1,0 +1,10 @@
+[package]
+name = "crunch"
+description = "Real-time guitar effects processor right in your terminal."
+version = "0.0.1"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+cpal = "0.18.1"
+pedalboard = { path = "../pedalboard" }
