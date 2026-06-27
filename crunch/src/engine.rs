@@ -15,14 +15,14 @@ pub struct AudioEngine {
 
 impl AudioEngine {
     pub fn new(
-        effects: Arc<Mutex<EffectChain>>,
+        effect_chain: EffectChain,
         input_config: StreamConfig,
         output_config: StreamConfig,
         sample_rate: f32,
     ) -> Self {
         Self {
             buffer: Arc::new(Mutex::new(AudioBuffer::new())),
-            effects,
+            effects: Arc::new(Mutex::new(effect_chain)),
             input_channels: input_config.channels as usize,
             output_channels: output_config.channels as usize,
             sample_rate,

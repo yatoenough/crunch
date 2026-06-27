@@ -1,5 +1,3 @@
-use std::sync::{Arc, Mutex};
-
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 use pedalboard::{
@@ -33,17 +31,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output_config =
         audio::device::config_with_min_buffer(output_device.default_output_config()?);
 
-    let chain = EffectChain::new(vec![
-        Box::new(Overdrive::new(15.0, 0.5)),
-        Box::new(Chorus::new(sample_rate)),
-        Box::new(Delay::new(sample_rate, 100.0, 0.1, 0.2, 0.43)),
-    ]);
+    let chain = EffectChain::new()
+        .apply(Overdrive::new(15.0, 0.5))
+        .apply(Chorus::new(sample_rate))
+        .apply(Delay::new(sample_rate, 100.0, 0.1, 0.2, 0.43));
 
-    let another_chain = EffectChain::new(vec![Box::new(chain.clone())]);
+    let another_chain = chain.clone();
 
-    let effects = Arc::new(Mutex::new(another_chain));
-
-    let engine = AudioEngine::new(effects, input_config, output_config, sample_rate);
+    let engine = AudioEngine::new(another_chain, input_config, output_config, sample_rate);
 
     let input_stream = input_device.build_input_stream(
         input_config,

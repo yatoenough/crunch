@@ -5,11 +5,6 @@ pub trait Effect: EffectClone + Send + Sync {
     fn process(&mut self, input_sample: f32) -> f32;
 }
 
-#[derive(Clone)]
-pub struct EffectChain {
-    effects: Vec<Box<dyn Effect>>,
-}
-
 pub trait EffectClone {
     fn clone_box(&self) -> Box<dyn Effect>;
 }
@@ -29,9 +24,21 @@ impl Clone for Box<dyn Effect> {
     }
 }
 
+#[derive(Clone, Default)]
+pub struct EffectChain {
+    effects: Vec<Box<dyn Effect>>,
+}
+
 impl EffectChain {
-    pub fn new(effects: Vec<Box<dyn Effect>>) -> Self {
-        Self { effects }
+    pub fn new() -> Self {
+        Self {
+            effects: Vec::new(),
+        }
+    }
+
+    pub fn apply<T: Effect + 'static>(mut self, effect: T) -> Self {
+        self.effects.push(Box::new(effect));
+        self
     }
 }
 
