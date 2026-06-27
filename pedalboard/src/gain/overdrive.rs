@@ -1,5 +1,6 @@
 use crate::Effect;
 
+#[derive(Clone)]
 pub struct Overdrive {
     drive: f32,
     volume: f32,

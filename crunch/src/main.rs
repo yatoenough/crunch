@@ -3,9 +3,9 @@ use std::sync::{Arc, Mutex};
 use cpal::traits::{DeviceTrait, HostTrait, StreamTrait};
 
 use pedalboard::{
+    EffectChain,
     gain::Overdrive,
     modulation::{Chorus, Delay},
-    EffectChain,
 };
 
 pub mod audio;
@@ -33,11 +33,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let output_config =
         audio::device::config_with_min_buffer(output_device.default_output_config()?);
 
-    let effects = Arc::new(Mutex::new(EffectChain::new(vec![
+    let chain = EffectChain::new(vec![
         Box::new(Overdrive::new(15.0, 0.5)),
         Box::new(Chorus::new(sample_rate)),
         Box::new(Delay::new(sample_rate, 100.0, 0.1, 0.2, 0.43)),
-    ])));
+    ]);
+
+    let another_chain = EffectChain::new(vec![Box::new(chain.clone())]);
+
+    let effects = Arc::new(Mutex::new(another_chain));
 
     let engine = AudioEngine::new(effects, input_config, output_config, sample_rate);
 

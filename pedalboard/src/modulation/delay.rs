@@ -1,5 +1,6 @@
 use crate::Effect;
 
+#[derive(Clone)]
 pub struct Delay {
     buffer: Vec<f32>,
     write_ptr: usize,

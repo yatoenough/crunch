@@ -1,5 +1,6 @@
 use crate::Effect;
 
+#[derive(Clone)]
 pub struct Distortion {
     drive: f32,
     threshold: f32,

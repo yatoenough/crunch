@@ -1,5 +1,6 @@
 use crate::Effect;
 
+#[derive(Clone)]
 pub struct Chorus {
     sample_rate: f32,
     buffer: Vec<f32>,
