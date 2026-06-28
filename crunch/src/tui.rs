@@ -66,12 +66,11 @@ fn run_app(
     loop {
         terminal.draw(|frame| app.render(frame))?;
 
-        if event::poll(Duration::from_millis(100))? {
-            if let Event::Key(key) = event::read()? {
-                if app.handle_key(key)? {
-                    break;
-                }
-            }
+        if event::poll(Duration::from_millis(100))?
+            && let Event::Key(key) = event::read()?
+            && app.handle_key(key)?
+        {
+            break;
         }
     }
 
