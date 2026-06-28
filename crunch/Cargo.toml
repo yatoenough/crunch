@@ -7,4 +7,6 @@ license = "MIT"
 
 [dependencies]
 cpal = "0.18.1"
+crossterm = "0.29.0"
 pedalboard = { path = "../pedalboard" }
+ratatui = "0.29.0"
