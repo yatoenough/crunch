@@ -90,7 +90,7 @@ Available input devices:
 Select input device [default 1]:
 ```
 
-Press Enter to accept the default, or type a number. Once both streams are running, play — audio is processed sample-by-sample in real time. Press Enter again to stop and exit.
+Press Enter to accept the default, or type a number. Once both streams are running, play — audio is processed sample-by-sample in real time. Use control hints to add/remove effects and start/stop processing.
 
 ## Extending
 
