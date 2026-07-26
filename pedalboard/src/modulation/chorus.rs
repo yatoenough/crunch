@@ -1,5 +1,6 @@
-use crate::Effect;
+use crate::{Effect, EffectParam};
 
+#[derive(Clone)]
 pub struct Chorus {
     sample_rate: f32,
     buffer: Vec<f32>,
@@ -30,6 +31,53 @@ impl Chorus {
 }
 
 impl Effect for Chorus {
+    fn name(&self) -> &'static str {
+        "Chorus"
+    }
+
+    fn params(&self) -> Vec<EffectParam> {
+        vec![
+            EffectParam {
+                name: "Rate",
+                value: self.lfo_rate,
+                min: 0.1,
+                max: 8.0,
+                step: 0.1,
+            },
+            EffectParam {
+                name: "Depth",
+                value: self.lfo_depth / self.sample_rate * 1000.0,
+                min: 0.1,
+                max: 10.0,
+                step: 0.1,
+            },
+            EffectParam {
+                name: "Delay",
+                value: self.delay_center / self.sample_rate * 1000.0,
+                min: 1.0,
+                max: 40.0,
+                step: 0.5,
+            },
+            EffectParam {
+                name: "Mix",
+                value: self.mix,
+                min: 0.0,
+                max: 1.0,
+                step: 0.05,
+            },
+        ]
+    }
+
+    fn set_param(&mut self, name: &str, value: f32) {
+        match name {
+            "Rate" => self.lfo_rate = value.clamp(0.1, 8.0),
+            "Depth" => self.lfo_depth = value.clamp(0.1, 10.0) / 1000.0 * self.sample_rate,
+            "Delay" => self.delay_center = value.clamp(1.0, 40.0) / 1000.0 * self.sample_rate,
+            "Mix" => self.mix = value.clamp(0.0, 1.0),
+            _ => {}
+        }
+    }
+
     fn process(&mut self, sample: f32) -> f32 {
         self.buffer[self.write_pos] = sample;
 
