@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  RUSTFLAGS: "-Ctarget-cpu=x86-64-v3"
 
 jobs:
   build:
