@@ -1,0 +1,14 @@
+[package]
+name = "crunch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+NeuralAmpModeler-rs = "2.0"
+clap = { version = "4.6.7", features = ["derive"] }
+cpal = "0.18.2"
+rtrb = "0.4.1"
+
+# NAM inference is ~100x slower unoptimized, too slow for realtime even in `cargo run`.
+[profile.dev.package."*"]
+opt-level = 3
